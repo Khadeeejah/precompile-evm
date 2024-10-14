@@ -9,7 +9,6 @@ To effectively build, run, and test Precompile-EVM, the following is a (non-exha
 - Golang
 - Node.js
 - [AvalancheGo](https://github.com/ava-labs/avalanchego)
-- [Avalanche Network Runner](https://github.com/ava-labs/avalanche-network-runner)
 
 To get started easily, we provide a Dev Container specification, that can be used using GitHub Codespace or locally using Docker and VS Code. DevContainers are a concept that utilizes containerization (via Docker containers) to create consistent and isolated development environment. We can access this environment through VS code, which allows for the development experience to feel as if you were developing locally..
 
@@ -150,23 +149,18 @@ You can build your precompile and Subnet-EVM with `./scripts/build.sh`. This scr
 
 ### Run
 
-You can run you Precompile-EVM by using Avalanche Network Runner
+You can run you Precompile-EVM by using the Avalanche CLI.
+
+First, create the configuration for your subnet.
 
 ```bash
-avalanche-network-runner server \
---log-level debug \
---port=":8080" \
---grpc-gateway-port=":8081"
+avalanche subnet create mysubnet --custom --vm $AVALANCHEGO_PLUGIN_PATH/srEXiWaHuhNyGwPUi444Tu47ZEDwxTWrbQiuD7FmgSAQ6X7Dy --genesis ./.devcontainer/genesis-example.json
 ```
 
-Then launch a Subnet with your custom VM:
+Next, launch the Subnet with your custom VM:
 
 ```bash
-  avalanche-network-runner control start \
-  --log-level debug \
-  --endpoint="0.0.0.0:8080" \
-  --number-of-nodes=5 \
-  --blockchain-specs '[{"vm_name": "subnetevm", "genesis": "./.devcontainer/genesis-example.json"}]'
+avalanche subnet deploy mysubnet
 ```
 
 ### Test
@@ -180,16 +174,9 @@ In order to upgrade the Subnet-EVM version, you need to change the version in `g
 ## AvalancheGo Compatibility
 
 ```text
-[v0.1.0-v0.1.1] AvalancheGo@v1.10.1-v1.10.4 (Protocol Version: 26)
-[v0.1.2] AvalancheGo@v1.10.5-v1.10.8 (Protocol Version: 27)
-[v0.1.3] AvalancheGo@v1.10.9-v1.10.12 (Protocol Version: 28)
-[v0.1.4] AvalancheGo@v1.10.9-v1.10.12 (Protocol Version: 28)
-[v0.1.5] AvalancheGo@v1.10.13-v1.10.14 (Protocol Version: 29)
-[v0.1.6] AvalancheGo@v1.10.15-v1.10.17 (Protocol Version: 30)
-[v0.1.7] AvalancheGo@v1.10.15-v1.10.17 (Protocol Version: 30)
-[v0.1.8] AvalancheGo@v1.10.18-v1.10.19 (Protocol Version: 31)
 [v0.2.0] AvalancheGo@v1.11.0-v1.11.1 (Protocol Version: 33)
-[v0.2.1] AvalancheGo@v1.11.3-v1.11.7 (Protocol Version: 35)
-[v0.2.2] AvalancheGo@v1.11.3-v1.11.7 (Protocol Version: 35)
-[v0.2.3] AvalancheGo@v1.11.3-v1.11.7 (Protocol Version: 35)
+[v0.2.1] AvalancheGo@v1.11.3-v1.11.9 (Protocol Version: 35)
+[v0.2.2] AvalancheGo@v1.11.3-v1.11.9 (Protocol Version: 35)
+[v0.2.3] AvalancheGo@v1.11.3-v1.11.9 (Protocol Version: 35)
+[v0.2.4] AvalancheGo@v1.11.11 (Protocol Version: 37)
 ```
